@@ -1,0 +1,137 @@
+---
+title: "Download data from Cassava Base"
+author: "Delgado Luis Fernando"
+format: 
+  html:
+    theme: litera
+project:
+  type: website
+  output-dir: docs
+---
+
+# Download data from Cassava Base through R programing 
+
+This is a repository showing the process of downloading data from the [https://cassavabase.org/](Cassava Base) through the [https://github.com/icarda-git/QBMS](QBMS) package. With the attached code you can download all the trials from 1979 to 2021.
+
+Data management system is one of the most important step in breeding digitalization. Breeders data analysts and  managers can use this R package to Query the Breeding Management System(s) like BMS, BreedBase, and GIGWA (using BrAPI calls) and help them to retrieve phenotypic and genotypic data directly into their analyzing pipelines developed in R statistical environment.
+
+## Load packages 
+
+Here we check whether all necessary packages are installed in your computer.
+
+```{r}
+## Packages (install)
+pkgs <- rownames(installed.packages())
+
+if(!"tidyverse" %in% pkgs) install.packages("tidyverse")
+if(!"QBMS" %in% pkgs) install.packages("QBMS")
+if(!"here" %in% pkgs) install.packages("here")
+```
+
+The code recognizes if certain packages are missing from your package library and, if so, will install them automatically.
+
+Now, we need to load the packages:
+
+```{r}
+library(tidyverse)
+library(QBMS)
+library(here)
+```
+
+# Historical Data from Cassava Base
+
+The Cassava program from CIAT has conducted several trials over its history; the following code will show you the way to download the historic data.
+
+## Conection with Cassava BreedBase server
+
+```{r}
+set_qbms_config("https://cassavabase.org/brapi/v1/calls/",
+                path = "", time_out = 300, no_auth = TRUE,
+                page_size = 10000,
+                engine = "breedbase")
+```
+
+## List supported crops in the current bms server
+
+```{r}
+list_crops()
+```
+## Select a crop by name
+
+```{r}
+set_crop("Cassava")
+```
+
+## List all breeding programs in the selected crop
+
+```{r}
+list_programs()
+```
+## Select the desire breeding program by name
+
+```{r}
+set_program("CIAT")
+```
+
+## List all year's trial in the selected program
+
+```{r}
+trials <- list_trials() %>% pull()
+trials
+```
+Above you can see all year's trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2021
+
+```{r}
+trials <- trials[str_starts(trials, "CIAT")] # 40 trials
+trials <- trials[-c(41:43)]
+trials
+```
+## Downloading process 
+
+The download process may take a short or long time base on the number of trials to be downloaded. 
+The example data downloaded, took several hours because It had more than 1000 trials. A for bucle was developed to iterate trough all desired trials
+
+```{r eval=FALSE}
+raw_data = list() # create a list to store the data
+
+i = 1
+for (trial in trials) {
+
+  set_trial(trial)  
+  # get observation variable ontology in the selected study/trial
+  ontology <- get_trial_obs_ontology()
+  # list all environments/locations information in the selected study/trial
+  STUDIES <- list_studies()
+  complete_studies <- STUDIES %>% pull(studyName)
+  
+  #for loop to extract the data of trials selected
+  for(i in 1:length(complete_studies)) { 
+    set_study(complete_studies[i])
+    
+    raw_data[[complete_studies[i] ]] = get_study_data()
+  }
+}
+```
+## Convert list into a data.frame
+
+```{r eval=FALSE}
+all_raw = data.table::rbindlist(raw_data, fill = TRUE) %>% 
+  as_tibble() %>%
+  filter(observationLevel == "plot") 
+```
+
+## Save the file in .RDS file 
+
+```{r eval=FALSE}
+trial_interest = "historical_raw_data_"
+
+meta_file_name.r = paste("01_", trial_interest,
+                         Sys.Date(),".rds", sep = "")
+saveRDS(all_raw, file = here::here("data", meta_file_name.r))
+
+```
+
+
+
+
+
