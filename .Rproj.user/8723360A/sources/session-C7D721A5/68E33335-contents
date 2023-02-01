@@ -11,7 +11,7 @@ project:
 
 # Download data from Cassava Base through R programing 
 
-This is a repository showing the process of downloading data from the [https://cassavabase.org/](Cassava Base) through the [https://github.com/icarda-git/QBMS](QBMS) package. With the attached code you can download all the trials from 1979 to 2021.
+This is a code showing the process of downloading data from the [https://cassavabase.org/](Cassava Base) through the [https://github.com/icarda-git/QBMS](QBMS) package. With the attached code you can download all the trials from 1979 to 2021.
 
 Data management system is one of the most important step in breeding digitalization. Breeders data analysts and  managers can use this R package to Query the Breeding Management System(s) like BMS, BreedBase, and GIGWA (using BrAPI calls) and help them to retrieve phenotypic and genotypic data directly into their analyzing pipelines developed in R statistical environment.
 
@@ -32,7 +32,7 @@ The code recognizes if certain packages are missing from your package library an
 
 Now, we need to load the packages:
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 library(tidyverse)
 library(QBMS)
 library(here)
@@ -56,6 +56,7 @@ set_qbms_config("https://cassavabase.org/brapi/v1/calls/",
 ```{r}
 list_crops()
 ```
+
 ## Select a crop by name
 
 ```{r}
@@ -67,6 +68,7 @@ set_crop("Cassava")
 ```{r}
 list_programs()
 ```
+
 ## Select the desire breeding program by name
 
 ```{r}
@@ -79,6 +81,7 @@ set_program("CIAT")
 trials <- list_trials() %>% pull()
 trials
 ```
+
 Above you can see all year's trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2021
 
 ```{r}
@@ -86,6 +89,7 @@ trials <- trials[str_starts(trials, "CIAT")] # 40 trials
 trials <- trials[-c(41:43)]
 trials
 ```
+
 ## Downloading process 
 
 The download process may take a short or long time base on the number of trials to be downloaded. 
@@ -112,6 +116,7 @@ for (trial in trials) {
   }
 }
 ```
+
 ## Convert list into a data.frame
 
 ```{r eval=FALSE}

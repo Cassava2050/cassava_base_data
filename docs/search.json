@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "cassava_base_data.html",
+    "href": "cassava_base_data.html",
+    "title": "Download data from Cassava Base",
+    "section": "",
+    "text": "This is a repository showing the process of downloading data from the https://cassavabase.org/ through the https://github.com/icarda-git/QBMS package. With the attached code you can download all the trials from 1979 to 2021.\nData management system is one of the most important step in breeding digitalization. Breeders data analysts and managers can use this R package to Query the Breeding Management System(s) like BMS, BreedBase, and GIGWA (using BrAPI calls) and help them to retrieve phenotypic and genotypic data directly into their analyzing pipelines developed in R statistical environment.\n\n\nHere we check whether all necessary packages are installed in your computer.\n\n## Packages (install)\npkgs <- rownames(installed.packages())\n\nif(!\"tidyverse\" %in% pkgs) install.packages(\"tidyverse\")\nif(!\"QBMS\" %in% pkgs) install.packages(\"QBMS\")\nif(!\"here\" %in% pkgs) install.packages(\"here\")\n\nThe code recognizes if certain packages are missing from your package library and, if so, will install them automatically.\nNow, we need to load the packages:\n\nlibrary(tidyverse)\nlibrary(QBMS)\nlibrary(here)"
+  },
+  {
+    "objectID": "cassava_base_data.html#conection-with-cassava-breedbase-server",
+    "href": "cassava_base_data.html#conection-with-cassava-breedbase-server",
+    "title": "Download data from Cassava Base",
+    "section": "Conection with Cassava BreedBase server",
+    "text": "Conection with Cassava BreedBase server\n\nset_qbms_config(\"https://cassavabase.org/brapi/v1/calls/\",\n                path = \"\", time_out = 300, no_auth = TRUE,\n                page_size = 10000,\n                engine = \"breedbase\")"
+  },
+  {
+    "objectID": "cassava_base_data.html#list-supported-crops-in-the-current-bms-server",
+    "href": "cassava_base_data.html#list-supported-crops-in-the-current-bms-server",
+    "title": "Download data from Cassava Base",
+    "section": "List supported crops in the current bms server",
+    "text": "List supported crops in the current bms server\n\nlist_crops()\n\n[1] \"Cassava\""
+  },
+  {
+    "objectID": "cassava_base_data.html#select-a-crop-by-name",
+    "href": "cassava_base_data.html#select-a-crop-by-name",
+    "title": "Download data from Cassava Base",
+    "section": "Select a crop by name",
+    "text": "Select a crop by name\n\nset_crop(\"Cassava\")"
+  },
+  {
+    "objectID": "cassava_base_data.html#list-all-breeding-programs-in-the-selected-crop",
+    "href": "cassava_base_data.html#list-all-breeding-programs-in-the-selected-crop",
+    "title": "Download data from Cassava Base",
+    "section": "List all breeding programs in the selected crop",
+    "text": "List all breeding programs in the selected crop\n\nlist_programs()\n\n       programName\n1              5CP\n2              BTI\n3             CARI\n4               CH\n5             CIAT\n6             CNRA\n7          Cornell\n8             CSIR\n9          Embrapa\n10           IDIAF\n11            IITA\n12  INERA_IITA_DRC\n13           ISABU\n14             ITC\n15           KALRO\n16              KU\n17          NaCRRI\n18           NRCRI\n19          Rayong\n20           SLARI\n21            TARI\n22             UAC\n23              UH\n24 UNILA-Indonesia\n25            ZARI"
+  },
+  {
+    "objectID": "cassava_base_data.html#select-the-desire-breeding-program-by-name",
+    "href": "cassava_base_data.html#select-the-desire-breeding-program-by-name",
+    "title": "Download data from Cassava Base",
+    "section": "Select the desire breeding program by name",
+    "text": "Select the desire breeding program by name\n\nset_program(\"CIAT\")"
+  },
+  {
+    "objectID": "cassava_base_data.html#list-all-years-trial-in-the-selected-program",
+    "href": "cassava_base_data.html#list-all-years-trial-in-the-selected-program",
+    "title": "Download data from Cassava Base",
+    "section": "List all year’s trial in the selected program",
+    "text": "List all year’s trial in the selected program\n\ntrials <- list_trials() %>% pull()\ntrials\n\n [1] \"Vietnam_2018\" \"Vietnam_2019\" \"Vietnam_2020\" \"Vietnam_2021\" \"Vietnam_2022\"\n [6] \"Asia\"         \"CIAT_1979\"    \"CIAT_1980\"    \"CIAT_1981\"    \"CIAT_1982\"   \n[11] \"CIAT_1983\"    \"CIAT_1984\"    \"CIAT_1985\"    \"CIAT_1986\"    \"CIAT_1987\"   \n[16] \"CIAT_1988\"    \"CIAT_1989\"    \"CIAT_1990\"    \"CIAT_1991\"    \"CIAT_1995\"   \n[21] \"CIAT_1996\"    \"CIAT_1997\"    \"CIAT_1998\"    \"CIAT_1999\"    \"CIAT_2000\"   \n[26] \"CIAT_2001\"    \"CIAT_2002\"    \"CIAT_2003\"    \"CIAT_2004\"    \"CIAT_2005\"   \n[31] \"CIAT_2006\"    \"CIAT_2007\"    \"CIAT_2008\"    \"CIAT_2009\"    \"CIAT_2010\"   \n[36] \"CIAT_2011\"    \"CIAT_2012\"    \"CIAT_2013\"    \"CIAT_2014\"    \"CIAT_2015\"   \n[41] \"CIAT_2016\"    \"CIAT_2017\"    \"CIAT_2018\"    \"CIAT_2019\"    \"CIAT_2020\"   \n[46] \"CIAT_2021\"    \"CIAT_2022\"    \"CIAT_2023\"    \"CIAT\"        \n\n\nAbove you can see all year’s trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2021\n\ntrials <- trials[str_starts(trials, \"CIAT\")] # 40 trials\ntrials <- trials[-c(41:43)]\ntrials\n\n [1] \"CIAT_1979\" \"CIAT_1980\" \"CIAT_1981\" \"CIAT_1982\" \"CIAT_1983\" \"CIAT_1984\"\n [7] \"CIAT_1985\" \"CIAT_1986\" \"CIAT_1987\" \"CIAT_1988\" \"CIAT_1989\" \"CIAT_1990\"\n[13] \"CIAT_1991\" \"CIAT_1995\" \"CIAT_1996\" \"CIAT_1997\" \"CIAT_1998\" \"CIAT_1999\"\n[19] \"CIAT_2000\" \"CIAT_2001\" \"CIAT_2002\" \"CIAT_2003\" \"CIAT_2004\" \"CIAT_2005\"\n[25] \"CIAT_2006\" \"CIAT_2007\" \"CIAT_2008\" \"CIAT_2009\" \"CIAT_2010\" \"CIAT_2011\"\n[31] \"CIAT_2012\" \"CIAT_2013\" \"CIAT_2014\" \"CIAT_2015\" \"CIAT_2016\" \"CIAT_2017\"\n[37] \"CIAT_2018\" \"CIAT_2019\" \"CIAT_2020\" \"CIAT_2021\""
+  },
+  {
+    "objectID": "cassava_base_data.html#downloading-process",
+    "href": "cassava_base_data.html#downloading-process",
+    "title": "Download data from Cassava Base",
+    "section": "Downloading process",
+    "text": "Downloading process\nThe download process may take a short or long time base on the number of trials to be downloaded. The example data downloaded, took several hours because It had more than 1000 trials. A for bucle was developed to iterate trough all desired trials\n\nraw_data = list() # create a list to store the data\n\ni = 1\nfor (trial in trials) {\n\n  set_trial(trial)  \n  # get observation variable ontology in the selected study/trial\n  ontology <- get_trial_obs_ontology()\n  # list all environments/locations information in the selected study/trial\n  STUDIES <- list_studies()\n  complete_studies <- STUDIES %>% pull(studyName)\n  \n  #for loop to extract the data of trials selected\n  for(i in 1:length(complete_studies)) { \n    set_study(complete_studies[i])\n    \n    raw_data[[complete_studies[i] ]] = get_study_data()\n  }\n}"
+  },
+  {
+    "objectID": "cassava_base_data.html#convert-list-into-a-data.frame",
+    "href": "cassava_base_data.html#convert-list-into-a-data.frame",
+    "title": "Download data from Cassava Base",
+    "section": "Convert list into a data.frame",
+    "text": "Convert list into a data.frame\n\nall_raw = data.table::rbindlist(raw_data, fill = TRUE) %>% \n  as_tibble() %>%\n  filter(observationLevel == \"plot\")"
+  },
+  {
+    "objectID": "cassava_base_data.html#save-the-file-in-.rds-file",
+    "href": "cassava_base_data.html#save-the-file-in-.rds-file",
+    "title": "Download data from Cassava Base",
+    "section": "Save the file in .RDS file",
+    "text": "Save the file in .RDS file\n\ntrial_interest = \"historical_raw_data_\"\n\nmeta_file_name.r = paste(\"01_\", trial_interest,\n                         Sys.Date(),\".rds\", sep = \"\")\nsaveRDS(all_raw, file = here::here(\"data\", meta_file_name.r))"
+  }
+]
