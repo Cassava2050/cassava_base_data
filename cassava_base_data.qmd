@@ -82,13 +82,36 @@ trials <- list_trials() %>% pull()
 trials
 ```
 
-Above you can see all year's trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2021
+Above you can see all year's trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2022
 
 ```{r}
 trials <- trials[str_starts(trials, "CIAT")] # 40 trials
-trials <- trials[-c(41:43)]
+trials
+trials <- trials[-c(45:47)]
 trials
 ```
+
+```{r}
+# Función para procesar cada trial
+process_trial <- function(trial) {
+  set_trial(trial)
+  ontology <- get_trial_obs_ontology()
+  STUDIES <- list_studies()
+  complete_studies <- STUDIES %>% pull(studyName)
+  
+  # Utilizar map para iterar sobre complete_studies y obtener datos de cada estudio
+  study_data <- map(set_names(complete_studies), ~ {
+    set_study(.x)
+    get_study_data()
+  })
+  
+  return(study_data)
+}
+
+raw_data <- map(trials, process_trial)
+raw_data <- flatten(raw_data)
+```
+
 
 ## Downloading process 
 
@@ -122,18 +145,20 @@ for (trial in trials) {
 ```{r eval=FALSE}
 all_raw = data.table::rbindlist(raw_data, fill = TRUE) %>% 
   as_tibble() %>%
-  filter(observationLevel == "plot") 
+  filter(observationLevel == "plot")
+
+# dimentions of the entire data set
+dim(all_raw)
 ```
 
 ## Save the file in .RDS file 
 
 ```{r eval=FALSE}
-trial_interest = "historical_raw_data_"
+trial_interest = "hist_raw_data_"
 
 meta_file_name.r = paste("01_", trial_interest,
                          Sys.Date(),".rds", sep = "")
 saveRDS(all_raw, file = here::here("data", meta_file_name.r))
-
 ```
 
 
