@@ -159,13 +159,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="download-data-from-cassava-base-through-r-programing" class="level1">
-<h1>Download data from Cassava Base through R programing</h1>
-<p>This is a code showing the process of downloading data from the <a href="Cassava Base">https://cassavabase.org/</a> through the <a href="QBMS">https://github.com/icarda-git/QBMS</a> package. With the attached code you can download all the trials from 1979 to 2021.</p>
-<p>Data management system is one of the most important step in breeding digitalization. Breeders data analysts and managers can use this R package to Query the Breeding Management System(s) like BMS, BreedBase, and GIGWA (using BrAPI calls) and help them to retrieve phenotypic and genotypic data directly into their analyzing pipelines developed in R statistical environment.</p>
+<section id="data-download-from-cassava-base-using-qbms-package" class="level2">
+<h2 class="anchored" data-anchor-id="data-download-from-cassava-base-using-qbms-package">Data Download from Cassava Base using QBMS Package</h2>
+<p>This documentation outlines the process of downloading data from Cassava Base through the use of the QBMS (Query Breeding Management System) package. The QBMS package facilitates the interaction with breeding databases such as BMS (Breeding Management System), BreedBase, and GIGWA through standardized BrAPI calls, enabling the efficient retrieval of both phenotypic and genotypic data.</p>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">Getting Started:</h3>
+<p>To begin downloading data from Cassava Base, refer to the attached code snippet. This R package is designed to be user-friendly, catering to the specific needs of those involved in the genetic improvement and analysis of crops.</p>
+<p>For more information on how to use the QBMS package, visit the GitHub repository: <a href="https://github.com/icarda-git/QBMS">QBMS on GitHub</a>.</p>
+</section>
+</section>
 <section id="load-packages" class="level2">
 <h2 class="anchored" data-anchor-id="load-packages">Load packages</h2>
-<p>Here we check whether all necessary packages are installed in your computer.</p>
+<p>This is where we check to see if all the necessary packages are installed on your computer.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Packages (install)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())</span>
@@ -174,18 +179,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">"QBMS"</span> <span class="sc">%in%</span> pkgs) <span class="fu">install.packages</span>(<span class="st">"QBMS"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">"here"</span> <span class="sc">%in%</span> pkgs) <span class="fu">install.packages</span>(<span class="st">"here"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The code recognizes if certain packages are missing from your package library and, if so, will install them automatically.</p>
-<p>Now, we need to load the packages:</p>
+<p>The code will detect if certain packages are missing from your package library, and if so, will install them automatically.</p>
+<p>Now we need to load the packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(QBMS)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
 <section id="historical-data-from-cassava-base" class="level1">
 <h1>Historical Data from Cassava Base</h1>
-<p>The Cassava program from CIAT has conducted several trials over its history; the following code will show you the way to download the historic data.</p>
+<p>The Cassava program at CIAT has a rich history of conducting various trials. The code snippet provided below offers a straightforward method for downloading this historical data, facilitating easy access to valuable research information.</p>
 <section id="conection-with-cassava-breedbase-server" class="level2">
 <h2 class="anchored" data-anchor-id="conection-with-cassava-breedbase-server">Conection with Cassava BreedBase server</h2>
 <div class="cell">
@@ -221,26 +225,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 3             CARI
 4               CH
 5             CIAT
-6             CNRA
-7          Cornell
-8             CSIR
-9          Embrapa
-10           IDIAF
-11            IITA
-12  INERA_IITA_DRC
-13           ISABU
-14             ITC
-15           KALRO
-16              KU
-17          NaCRRI
-18           NRCRI
-19          Rayong
-20           SLARI
-21            TARI
-22             UAC
-23              UH
-24 UNILA-Indonesia
-25            ZARI</code></pre>
+6     CIP-genebank
+7             CNRA
+8          Cornell
+9             CSIR
+10         Embrapa
+11           IDIAF
+12            IITA
+13  INERA_IITA_DRC
+14           ISABU
+15             ITC
+16           KALRO
+17              KU
+18          NaCRRI
+19           NRCRI
+20          Rayong
+21           SLARI
+22            TARI
+23             UAC
+24              UH
+25 UNILA-Indonesia
+26            ZARI</code></pre>
 </div>
 </div>
 </section>
@@ -256,75 +261,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">list_trials</span>() <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "Vietnam_2018" "Vietnam_2019" "Vietnam_2020" "Vietnam_2021" "Vietnam_2022"
- [6] "Asia"         "CIAT_1979"    "CIAT_1980"    "CIAT_1981"    "CIAT_1982"   
-[11] "CIAT_1983"    "CIAT_1984"    "CIAT_1985"    "CIAT_1986"    "CIAT_1987"   
-[16] "CIAT_1988"    "CIAT_1989"    "CIAT_1990"    "CIAT_1991"    "CIAT_1995"   
-[21] "CIAT_1996"    "CIAT_1997"    "CIAT_1998"    "CIAT_1999"    "CIAT_2000"   
-[26] "CIAT_2001"    "CIAT_2002"    "CIAT_2003"    "CIAT_2004"    "CIAT_2005"   
-[31] "CIAT_2006"    "CIAT_2007"    "CIAT_2008"    "CIAT_2009"    "CIAT_2010"   
-[36] "CIAT_2011"    "CIAT_2012"    "CIAT_2013"    "CIAT_2014"    "CIAT_2015"   
-[41] "CIAT_2016"    "CIAT_2017"    "CIAT_2018"    "CIAT_2019"    "CIAT_2020"   
-[46] "CIAT_2021"    "CIAT_2022"    "CIAT_2023"    "CIAT"        </code></pre>
+<pre><code> [1] "Malawi"       "Africa"       "Vietnam_2018" "Vietnam_2019" "Vietnam_2020"
+ [6] "Vietnam_2021" "Vietnam_2022" "Vietnam_2023" "Vietnam_2024" "Asia"        
+[11] "CIAT_1979"    "CIAT_1980"    "CIAT_1981"    "CIAT_1982"    "CIAT_1983"   
+[16] "CIAT_1984"    "CIAT_1985"    "CIAT_1986"    "CIAT_1987"    "CIAT_1988"   
+[21] "CIAT_1989"    "CIAT_1990"    "CIAT_1991"    "CIAT_1992"    "CIAT_1993"   
+[26] "CIAT_1994"    "CIAT_1995"    "CIAT_1996"    "CIAT_1997"    "CIAT_1998"   
+[31] "CIAT_1999"    "CIAT_2000"    "CIAT_2001"    "CIAT_2002"    "CIAT_2003"   
+[36] "CIAT_2004"    "CIAT_2005"    "CIAT_2006"    "CIAT_2007"    "CIAT_2008"   
+[41] "CIAT_2009"    "CIAT_2010"    "CIAT_2011"    "CIAT_2012"    "CIAT_2013"   
+[46] "CIAT_2014"    "CIAT_2015"    "CIAT_2016"    "CIAT_2017"    "CIAT_2018"   
+[51] "CIAT_2019"    "CIAT_2020"    "CIAT_2021"    "CIAT_2022"    "CIAT_2023"   
+[56] "CIAT_2024"    "CIAT"        </code></pre>
 </div>
 </div>
-<p>Above you can see all year’s trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2021</p>
+<p>Above you can see all the years of the trial that have been carried out by the Cassava program. For the actual example case, we will take the years from 1979 to 2022.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="fu">str_starts</span>(trials, <span class="st">"CIAT"</span>)] <span class="co"># 40 trials</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">41</span><span class="sc">:</span><span class="dv">43</span>)]</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="fu">str_starts</span>(trials, <span class="st">"CIAT"</span>)] </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "CIAT_1979" "CIAT_1980" "CIAT_1981" "CIAT_1982" "CIAT_1983" "CIAT_1984"
  [7] "CIAT_1985" "CIAT_1986" "CIAT_1987" "CIAT_1988" "CIAT_1989" "CIAT_1990"
-[13] "CIAT_1991" "CIAT_1995" "CIAT_1996" "CIAT_1997" "CIAT_1998" "CIAT_1999"
-[19] "CIAT_2000" "CIAT_2001" "CIAT_2002" "CIAT_2003" "CIAT_2004" "CIAT_2005"
-[25] "CIAT_2006" "CIAT_2007" "CIAT_2008" "CIAT_2009" "CIAT_2010" "CIAT_2011"
-[31] "CIAT_2012" "CIAT_2013" "CIAT_2014" "CIAT_2015" "CIAT_2016" "CIAT_2017"
-[37] "CIAT_2018" "CIAT_2019" "CIAT_2020" "CIAT_2021"</code></pre>
+[13] "CIAT_1991" "CIAT_1992" "CIAT_1993" "CIAT_1994" "CIAT_1995" "CIAT_1996"
+[19] "CIAT_1997" "CIAT_1998" "CIAT_1999" "CIAT_2000" "CIAT_2001" "CIAT_2002"
+[25] "CIAT_2003" "CIAT_2004" "CIAT_2005" "CIAT_2006" "CIAT_2007" "CIAT_2008"
+[31] "CIAT_2009" "CIAT_2010" "CIAT_2011" "CIAT_2012" "CIAT_2013" "CIAT_2014"
+[37] "CIAT_2015" "CIAT_2016" "CIAT_2017" "CIAT_2018" "CIAT_2019" "CIAT_2020"
+[43] "CIAT_2021" "CIAT_2022" "CIAT_2023" "CIAT_2024" "CIAT"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> trials[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">45</span><span class="sc">:</span><span class="dv">47</span>)]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>trials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "CIAT_1979" "CIAT_1980" "CIAT_1981" "CIAT_1982" "CIAT_1983" "CIAT_1984"
+ [7] "CIAT_1985" "CIAT_1986" "CIAT_1987" "CIAT_1988" "CIAT_1989" "CIAT_1990"
+[13] "CIAT_1991" "CIAT_1992" "CIAT_1993" "CIAT_1994" "CIAT_1995" "CIAT_1996"
+[19] "CIAT_1997" "CIAT_1998" "CIAT_1999" "CIAT_2000" "CIAT_2001" "CIAT_2002"
+[25] "CIAT_2003" "CIAT_2004" "CIAT_2005" "CIAT_2006" "CIAT_2007" "CIAT_2008"
+[31] "CIAT_2009" "CIAT_2010" "CIAT_2011" "CIAT_2012" "CIAT_2013" "CIAT_2014"
+[37] "CIAT_2015" "CIAT_2016" "CIAT_2017" "CIAT_2018" "CIAT_2019" "CIAT_2020"
+[43] "CIAT_2021" "CIAT_2022"</code></pre>
 </div>
 </div>
 </section>
 <section id="downloading-process" class="level2">
 <h2 class="anchored" data-anchor-id="downloading-process">Downloading process</h2>
-<p>The download process may take a short or long time base on the number of trials to be downloaded. The example data downloaded, took several hours because It had more than 1000 trials. A for bucle was developed to iterate trough all desired trials</p>
+<p>The download process may take a short or long time depending on the number of trials to be downloaded.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">=</span> <span class="fu">list</span>() <span class="co"># create a list to store the data</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (trial <span class="cf">in</span> trials) {</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_trial</span>(trial)  </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get observation variable ontology in the selected study/trial</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  ontology <span class="ot">&lt;-</span> <span class="fu">get_trial_obs_ontology</span>()</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># list all environments/locations information in the selected study/trial</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  STUDIES <span class="ot">&lt;-</span> <span class="fu">list_studies</span>()</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  complete_studies <span class="ot">&lt;-</span> STUDIES <span class="sc">%&gt;%</span> <span class="fu">pull</span>(studyName)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#for loop to extract the data of trials selected</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(complete_studies)) { </span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_study</span>(complete_studies[i])</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    raw_data[[complete_studies[i] ]] <span class="ot">=</span> <span class="fu">get_study_data</span>()</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para procesar cada trial</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>process_trial <span class="ot">&lt;-</span> <span class="cf">function</span>(trial) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_trial</span>(trial)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  ontology <span class="ot">&lt;-</span> <span class="fu">get_trial_obs_ontology</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  STUDIES <span class="ot">&lt;-</span> <span class="fu">list_studies</span>()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  complete_studies <span class="ot">&lt;-</span> STUDIES <span class="sc">%&gt;%</span> <span class="fu">pull</span>(studyName)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Utilizar map para iterar sobre complete_studies y obtener datos de cada estudio</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  study_data <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="fu">set_names</span>(complete_studies), <span class="sc">~</span> {</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_study</span>(.x)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_study_data</span>()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(study_data)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">map</span>(trials, process_trial)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># flatten list</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">flatten</span>(raw_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="convert-list-into-a-data.frame" class="level2">
 <h2 class="anchored" data-anchor-id="convert-list-into-a-data.frame">Convert list into a data.frame</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>all_raw <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(raw_data, <span class="at">fill =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(observationLevel <span class="sc">==</span> <span class="st">"plot"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>all_raw <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(raw_data, <span class="at">fill =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(observationLevel <span class="sc">==</span> <span class="st">"plot"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># dimentions of the entire data set</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(all_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="save-the-file-in-.rds-file" class="level2">
 <h2 class="anchored" data-anchor-id="save-the-file-in-.rds-file">Save the file in .RDS file</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trial_interest <span class="ot">=</span> <span class="st">"historical_raw_data_"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>meta_file_name.r <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"01_"</span>, trial_interest,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">Sys.Date</span>(),<span class="st">".rds"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(all_raw, <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, meta_file_name.r))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>trial_interest <span class="ot">=</span> <span class="st">"hist_raw_data_"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>meta_file_name.r <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">"01_"</span>, trial_interest,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">Sys.Date</span>(),<span class="st">".rds"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(all_raw, <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, meta_file_name.r))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -8,16 +8,18 @@ project:
   type: website
   output-dir: docs
 ---
+## Data Download from Cassava Base using QBMS Package
 
-# Download data from Cassava Base through R programing 
+This documentation outlines the process of downloading data from Cassava Base through the use of the QBMS (Query Breeding Management System) package. The QBMS package facilitates the interaction with breeding databases such as BMS (Breeding Management System), BreedBase, and GIGWA through standardized BrAPI calls, enabling the efficient retrieval of both phenotypic and genotypic data.
 
-This is a code showing the process of downloading data from the [https://cassavabase.org/](Cassava Base) through the [https://github.com/icarda-git/QBMS](QBMS) package. With the attached code you can download all the trials from 1979 to 2021.
+### Getting Started:
+To begin downloading data from Cassava Base, refer to the attached code snippet. This R package is designed to be user-friendly, catering to the specific needs of those involved in the genetic improvement and analysis of crops.
 
-Data management system is one of the most important step in breeding digitalization. Breeders data analysts and  managers can use this R package to Query the Breeding Management System(s) like BMS, BreedBase, and GIGWA (using BrAPI calls) and help them to retrieve phenotypic and genotypic data directly into their analyzing pipelines developed in R statistical environment.
+For more information on how to use the QBMS package, visit the GitHub repository: [QBMS on GitHub](https://github.com/icarda-git/QBMS).
 
 ## Load packages 
 
-Here we check whether all necessary packages are installed in your computer.
+This is where we check to see if all the necessary packages are installed on your computer.
 
 ```{r}
 ## Packages (install)
@@ -28,9 +30,9 @@ if(!"QBMS" %in% pkgs) install.packages("QBMS")
 if(!"here" %in% pkgs) install.packages("here")
 ```
 
-The code recognizes if certain packages are missing from your package library and, if so, will install them automatically.
+The code will detect if certain packages are missing from your package library, and if so, will install them automatically.
 
-Now, we need to load the packages:
+Now we need to load the packages:
 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -40,7 +42,7 @@ library(here)
 
 # Historical Data from Cassava Base
 
-The Cassava program from CIAT has conducted several trials over its history; the following code will show you the way to download the historic data.
+The Cassava program at CIAT has a rich history of conducting various trials. The code snippet provided below offers a straightforward method for downloading this historical data, facilitating easy access to valuable research information.
 
 ## Conection with Cassava BreedBase server
 
@@ -82,16 +84,19 @@ trials <- list_trials() %>% pull()
 trials
 ```
 
-Above you can see all year's trial that has been conducted by Cassava program. For the actual example case, we are going to take the years from 1979 to 2022
+Above you can see all the years of the trial that have been carried out by the Cassava program. For the actual example case, we will take the years from 1979 to 2022.
 
 ```{r}
-trials <- trials[str_starts(trials, "CIAT")] # 40 trials
+trials <- trials[str_starts(trials, "CIAT")] 
 trials
 trials <- trials[-c(45:47)]
 trials
 ```
+## Downloading process 
 
-```{r}
+The download process may take a short or long time depending on the number of trials to be downloaded. 
+
+```{r eval=FALSE}
 # Función para procesar cada trial
 process_trial <- function(trial) {
   set_trial(trial)
@@ -109,35 +114,9 @@ process_trial <- function(trial) {
 }
 
 raw_data <- map(trials, process_trial)
+
+# flatten list
 raw_data <- flatten(raw_data)
-```
-
-
-## Downloading process 
-
-The download process may take a short or long time base on the number of trials to be downloaded. 
-The example data downloaded, took several hours because It had more than 1000 trials. A for bucle was developed to iterate trough all desired trials
-
-```{r eval=FALSE}
-raw_data = list() # create a list to store the data
-
-i = 1
-for (trial in trials) {
-
-  set_trial(trial)  
-  # get observation variable ontology in the selected study/trial
-  ontology <- get_trial_obs_ontology()
-  # list all environments/locations information in the selected study/trial
-  STUDIES <- list_studies()
-  complete_studies <- STUDIES %>% pull(studyName)
-  
-  #for loop to extract the data of trials selected
-  for(i in 1:length(complete_studies)) { 
-    set_study(complete_studies[i])
-    
-    raw_data[[complete_studies[i] ]] = get_study_data()
-  }
-}
 ```
 
 ## Convert list into a data.frame
