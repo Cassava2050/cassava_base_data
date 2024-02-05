@@ -1,2 +1,6 @@
 /.quarto/
+<<<<<<< HEAD
 .Rproj.user
+=======
+/_site/
+>>>>>>> dc8e6e36a99e10524726ec0f2172d58bde096c76
